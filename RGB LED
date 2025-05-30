@@ -1,0 +1,32 @@
+#include <WiFi.h>
+
+const char* ssid = "YOUR_SSID";
+const char* password = "YOUR_PASSWORD";
+
+#define RED_PIN 25
+#define GREEN_PIN 26
+#define BLUE_PIN 33
+
+void connectWiFi() {
+Serial.print("Connecting to WiFi");
+WiFi.begin(ssid, password);
+while (WiFi.status() != WL_CONNECTED) {
+delay(500); Serial.print(".");
+}
+Serial.println("\nWiFi connected!");
+Serial.println(WiFi.localIP());
+}
+
+void setup() {
+Serial.begin(115200);
+connectWiFi();
+pinMode(RED_PIN, OUTPUT);
+pinMode(GREEN_PIN, OUTPUT);
+pinMode(BLUE_PIN, OUTPUT);
+}
+
+void loop() {
+analogWrite(RED_PIN, 255); analogWrite(GREEN_PIN, 0); analogWrite(BLUE_PIN, 0); delay(1000);
+analogWrite(RED_PIN, 0); analogWrite(GREEN_PIN, 255); analogWrite(BLUE_PIN, 0); delay(1000);
+analogWrite(RED_PIN, 0); analogWrite(GREEN_PIN, 0); analogWrite(BLUE_PIN, 255); delay(1000);
+}
