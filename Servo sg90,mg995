@@ -1,0 +1,35 @@
+#include <WiFi.h>
+#include <ESP32Servo.h>
+
+const char* ssid = "YOUR_SSID";
+const char* password = "YOUR_PASSWORD";
+
+Servo sg90;
+
+void connectWiFi() {
+Serial.print("Connecting to WiFi");
+WiFi.begin(ssid, password);
+while (WiFi.status() != WL_CONNECTED) {
+delay(500);
+Serial.print(".");
+}
+Serial.println("\nWiFi connected!");
+Serial.println(WiFi.localIP());
+}
+
+void setup() {
+Serial.begin(115200);
+connectWiFi();
+
+sg90.setPeriodHertz(50); // SG90 ใช้ PWM 50Hz
+sg90.attach(15, 500, 2400); // พิน 15, กำหนดช่วงพัลส์ 0.5ms ถึง 2.4ms
+}
+
+void loop() {
+sg90.write(0);
+delay(1000);
+sg90.write(90);
+delay(1000);
+sg90.write(180);
+delay(1000);
+}
